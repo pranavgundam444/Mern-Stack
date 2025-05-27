@@ -1,0 +1,23 @@
+.card {
+    border-color: cadetblue;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: 15px;
+}
+
+.rows {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+.emailHead {
+    color: cadetblue;
+}
+
+.container {
+    background-color: aquamarine;
+}
