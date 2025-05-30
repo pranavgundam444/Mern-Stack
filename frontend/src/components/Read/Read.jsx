@@ -47,7 +47,7 @@
                 <div>
                     <h1>All Data</h1>
                     <div className='row'>
-                        {Array.isArray(data) && data.map((ele) => (
+                        {Array.isArra(data) && data.map((ele) => (
                             <div key={ele._id} className='col-3'>
                                 <div className='card'>
                                     <h5>{ele.name}</h5>
