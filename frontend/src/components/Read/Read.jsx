@@ -14,7 +14,7 @@
         }
 
         handleDelete = async (id) => {
-            const response = await fetch(`http://localhost:5000/${id}`, {
+            const response = await fetch(`https://mern-backend-ytca.onrender.com/${id}`, {
                 method: "DELETE",
             })
             const result = await response.json()
@@ -27,7 +27,7 @@
         }
 
         getData = async () => {
-            const response = await fetch("http://localhost:5000");
+            const response = await fetch("https://mern-backend-ytca.onrender.com");
             const result = await response.json()
 
             if (!response.ok) {
