@@ -12,7 +12,7 @@ const Update = () => {
   const navigate = useNavigate()
 
   const updateData = async() => {
-    const response = await fetch(`http://localhost:5000/${id}`)
+    const response = await fetch(`https://mern-backend-ytca.onrender.com/${id}`)
     const result = await response.json();
     if (response.ok) {
       console.log(result)
@@ -28,7 +28,7 @@ const Update = () => {
         event.preventDefault()
 
         const addUser = {name, email, age}
-        const url = `http://localhost:5000/${id}`
+        const url = `https://mern-backend-ytca.onrender.com/${id}`
         const options = {
             method: "PATCH",
             body: JSON.stringify(addUser),
