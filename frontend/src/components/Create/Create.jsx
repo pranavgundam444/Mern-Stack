@@ -15,7 +15,7 @@ const Create = () => {
         event.preventDefault()
 
         const addUser = {name, email, age}
-        const url = "http://localhost:5000"
+        const url = "https://mern-backend-ytca.onrender.com"
         const options = {
             method: "POST",
             body: JSON.stringify(addUser),
