@@ -14,16 +14,22 @@
         }
 
         handleDelete = async (id) => {
-            const response = await fetch(`https://mern-backend-ytca.onrender.com/${id}`, {
-                method: "DELETE",
-            })
-            const result = await response.json()
+            const updatedData = this.state.data.filter(item => item._id !== id);
+            this.setState({ data: updatedData });
 
-            if (response.ok) {
-                this.setState({error: "Deleted Successfully"})
-                this.setState({data: result})
+            try {
+                const response = await fetch(`https://mern-backend-ytca.onrender.com/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    this.setState({error: "Deleted Successfully"})
+                }
+            } catch (err) {
                 this.getData()
+                this.setState({error: "Somnething Went Wrong"})
             }
+
         }
 
         getData = async () => {
