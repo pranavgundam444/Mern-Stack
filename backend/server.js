@@ -25,4 +25,4 @@ mongoose
     console.log(("error", error))
 })
 
-app.use('/api/users', userRouter)
+app.use(userRouter)
