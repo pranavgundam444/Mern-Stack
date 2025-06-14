@@ -33,18 +33,23 @@
         }
 
         getData = async () => {
-            const response = await fetch("https://mern-backend-ytca.onrender.com");
-            const result = await response.json()
+            console.log("GET DATA EXECUTED");
+            try {
+                const response = await fetch("https://mern-backend-ytca.onrender.com/api/users");
+                const result = await response.json();
 
-            if (!response.ok) {
-                console.log(result.error)
-                this.setState({error: result.error})
+                if (response.ok) {
+                    console.log("Fetched Data:", result);
+                    this.setState({ data: result });
+                } else {
+                    console.log(result.error);
+                    this.setState({ error: result.error });
+                }
+            } catch (err) {
+                console.error("Fetch error:", err.message);
+                this.setState({ error: "Server error or invalid response" });
             }
-            if (response.ok) {
-                console.log("Fetched Data: ", result)
-                this.setState({data: result})
-            }
-        }
+        };
 
         render() {
             const {data} = this.state
