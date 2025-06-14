@@ -35,7 +35,7 @@
         getData = async () => {
             console.log("GET DATA EXECUTED");
             try {
-                const response = await fetch("https://mern-backend-ytca.onrender.com/api/users");
+                const response = await fetch("https://mern-backend-ytca.onrender.com");
                 const result = await response.json();
 
                 if (response.ok) {
