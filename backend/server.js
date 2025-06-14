@@ -3,6 +3,7 @@ const app = express()
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 dotenv.config()
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 const userRouter = require('./routes/userRoute')
 
@@ -24,5 +25,4 @@ mongoose
     console.log(("error", error))
 })
 
-
-app.use(userRouter)
+app.use('/api/users', userRouter)
