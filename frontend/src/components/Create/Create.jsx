@@ -6,6 +6,8 @@ const Create = () => {
     const [email, setEmail] = useState("")
     const [age, setAge] = useState(0)
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+
 
     const navigate = useNavigate()
 
@@ -13,8 +15,9 @@ const Create = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-
-        const addUser = {name, email, age}
+        setLoading(true)
+    
+        const addUser = { name, email, age }
         const url = "https://mern-backend-ytca.onrender.com"
         const options = {
             method: "POST",
@@ -23,24 +26,27 @@ const Create = () => {
                 "Content-Type": "application/json",
             },
         }
-
-        const response = await fetch(url, options)
-
-        const result = await response.json()
-        
-        if (!response.ok) {
-            console.log(result.error)
-            setError(result.error)
-        }
-        if (response.ok) {
-            console.log(result)
-            setError("")
-            setEmail("")
-            setName("")
-            setAge(0)
-            navigate('/all')
+    
+        try {
+            const response = await fetch(url, options)
+            const result = await response.json()
+    
+            if (!response.ok) {
+                setError(result.error)
+            } else {
+                setError("")
+                setEmail("")
+                setName("")
+                setAge(0)
+                navigate('/all') // Navigate after successful post
+            }
+        } catch (err) {
+            setError("Something went wrong. Try again.")
+        } finally {
+            setLoading(false)
         }
     }
+
 
   return (
     <div>
@@ -55,7 +61,10 @@ const Create = () => {
                 <p>Age</p>
                 <input className='inputEl w-50 m-2 text-center' type="number" placeholder='Type your age' value={age} onChange={(event) => setAge(event.target.value)}/>
             </div>
-            <button className='btn btn-primary'>Submit</button>
+            <button className='btn btn-primary' disabled={loading}>
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+
       </form>
     </div>
   )
