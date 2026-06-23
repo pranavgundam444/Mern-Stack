@@ -45,6 +45,7 @@ const Create = () => {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-xl">
