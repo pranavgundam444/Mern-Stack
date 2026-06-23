@@ -57,7 +57,7 @@ const Update = () => {
 
   useEffect(() => {
     updateData()
-  }, [])
+  })
   
 
   return (

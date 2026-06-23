@@ -20,7 +20,6 @@ router.post('/', async (req,res) => {
 })
 
 router.get('/', async (req,res) => {
-    
     try {
         const showData = await User.find();
         res.status(200).json(showData);
@@ -28,7 +27,6 @@ router.get('/', async (req,res) => {
         console.log(error);
         res.status(500).json({error: error.message})
     }
-    res.send("api running successfully")
 })
 
 router.get('/:id', async (req,res) => {
@@ -40,7 +38,6 @@ router.get('/:id', async (req,res) => {
         console.log(error);
         res.status(500).json({error: error.message})
     }
-    res.send("api running successfully")
 })
 
 router.delete('/:id', async (req, res) => {
@@ -52,7 +49,6 @@ router.delete('/:id', async (req, res) => {
         console.log(error);
         res.status(500).json({error: error.message})
     }
-    res.send("api running successfully")
 })
 
 router.patch('/:id', async (req, res) => {
@@ -65,7 +61,6 @@ router.patch('/:id', async (req, res) => {
         console.log(error);
         res.status(500).json({error: error.message})
     }
-    res.send("api running successfully")
 })
 
 module.exports = router;

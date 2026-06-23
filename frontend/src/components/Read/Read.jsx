@@ -10,35 +10,48 @@
 
         componentDidMount() {
             this.getData()
+            console.log("GETDATA CALLED")
             
         }
 
         handleDelete = async (id) => {
-            const response = await fetch(`https://mern-backend-ytca.onrender.com/${id}`, {
-                method: "DELETE",
-            })
-            const result = await response.json()
-            
-            if (response.ok) {
-                this.setState({error: "Deleted Successfully"})
-                this.setState({data: result})
+            const updatedData = this.state.data.filter(item => item._id !== id);
+            this.setState({ data: updatedData });
+
+            try {
+                const response = await fetch(`https://mern-backend-ytca.onrender.com/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    this.setState({error: "Deleted Successfully"})
+                }
+            } catch (err) {
                 this.getData()
+                this.setState({error: "Somnething Went Wrong"})
             }
-        }
+
+        };
+
 
         getData = async () => {
-            const response = await fetch("https://mern-backend-ytca.onrender.com");
-            const result = await response.json()
+            console.log("GET DATA EXECUTED");
+            try {
+                const response = await fetch("https://mern-backend-ytca.onrender.com");
+                const result = await response.json();
 
-            if (!response.ok) {
-                console.log(result.error)
-                this.setState({error: result.error})
+                if (response.ok) {
+                    console.log("Fetched Data:", result);
+                    this.setState({ data: result });
+                } else {
+                    console.log(result.error);
+                    this.setState({ error: result.error });
+                }
+            } catch (err) {
+                console.error("Fetch error:", err.message);
+                this.setState({ error: "Server error or invalid response" });
             }
-            if (response.ok) {
-                console.log("Fetched Data: ", result)
-                this.setState({data: result})
-            }
-        }
+        };
 
         render() {
             const {data} = this.state
@@ -54,7 +67,7 @@
                                     <h6 className='emailHead'>{ele.email}</h6>
                                     <p>{ele.age}</p>
                                     <div className='rows'>
-                                        <a href="#" className='me-2' onClick={() => this.handleDelete(ele._id)}>Delete</a>
+                                        <span className='me-2' style={{cursor: "pointer", color: "blue"}} onClick={() => this.handleDelete(ele._id)}>Delete</span>
                                         <Link to={`/${ele._id}`}>Edit</Link>
                                     </div>
                             </div>
