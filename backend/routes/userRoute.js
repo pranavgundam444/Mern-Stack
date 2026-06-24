@@ -20,6 +20,7 @@ router.post("/", async (req, res) => {
   } = req.body;
   try {
     const userData = await User.create({
+        
       employeeId,
       name,
       email,
