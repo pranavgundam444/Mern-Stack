@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "ajv": "^7.2.4"
+    "ajv": "^7.2.4",
+    "react-toastify": "^11.1.0"
   }
 }

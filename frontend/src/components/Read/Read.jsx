@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const API_URL = "https://mern-backend-ytca.onrender.com";
 
@@ -64,13 +65,16 @@ const Read = () => {
       if (!response.ok) {
         setData(previousData);
         setError("Failed to delete employee");
+        toast.error("Failed To Delete Employee")
         return;
       }
 
-      setSuccessMessage("Employee deleted successfully");
+      // setSuccessMessage("Employee deleted successfully");
+      toast.success("Employee Data Deleted Successfully")
     } catch (err) {
       setData(previousData);
-      setError("Something went wrong while deleting");
+      // setError("Something went wrong while deleting");
+      toast.error("Something Went Wrong")
     } finally {
       setDeletingId("");
     }
