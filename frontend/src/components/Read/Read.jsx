@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Trash2 } from "lucide-react";
 
 const API_URL = "https://mern-backend-ytca.onrender.com";
 
@@ -15,6 +16,10 @@ const Read = () => {
   const [departmentFilter, setDepartmentFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortBy, setSortBy] = useState("newest");
+
+  const [deleteId, setDeleteId] = useState(null);
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -42,15 +47,9 @@ const Read = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this employee?"
-    );
-
-    if (!confirmDelete) return;
-
     const previousData = data;
-
-    setDeletingId(id);
+    
+    // setDeletingId(id);
     setError("");
     setSuccessMessage("");
 
@@ -65,16 +64,17 @@ const Read = () => {
       if (!response.ok) {
         setData(previousData);
         setError("Failed to delete employee");
-        toast.error("Failed To Delete Employee")
+        toast.error("Failed To Delete Employee");
         return;
       }
 
       // setSuccessMessage("Employee deleted successfully");
-      toast.success("Employee Data Deleted Successfully")
+      setOpenDeleteModal(false);
+      toast.success("Employee Data Deleted Successfully");
     } catch (err) {
       setData(previousData);
       // setError("Something went wrong while deleting");
-      toast.error("Something Went Wrong")
+      toast.error("Something Went Wrong");
     } finally {
       setDeletingId("");
     }
@@ -106,13 +106,13 @@ const Read = () => {
 
     if (departmentFilter !== "All") {
       employees = employees.filter(
-        (employee) => employee.department === departmentFilter
+        (employee) => employee.department === departmentFilter,
       );
     }
 
     if (statusFilter !== "All") {
       employees = employees.filter(
-        (employee) => employee.status === statusFilter
+        (employee) => employee.status === statusFilter,
       );
     }
 
@@ -132,7 +132,7 @@ const Read = () => {
       employees.sort(
         (a, b) =>
           new Date(b.createdAt || b.joiningDate) -
-          new Date(a.createdAt || a.joiningDate)
+          new Date(a.createdAt || a.joiningDate),
       );
     }
 
@@ -140,7 +140,7 @@ const Read = () => {
       employees.sort(
         (a, b) =>
           new Date(a.createdAt || a.joiningDate) -
-          new Date(b.createdAt || b.joiningDate)
+          new Date(b.createdAt || b.joiningDate),
       );
     }
 
@@ -149,10 +149,10 @@ const Read = () => {
 
   const totalEmployees = data.length;
   const activeEmployees = data.filter(
-    (employee) => employee.status === "Active"
+    (employee) => employee.status === "Active",
   ).length;
   const inactiveEmployees = data.filter(
-    (employee) => employee.status === "Inactive"
+    (employee) => employee.status === "Inactive",
   ).length;
   const totalDepartments = departments.length > 0 ? departments.length - 1 : 0;
 
@@ -459,7 +459,10 @@ const Read = () => {
 
                   <button
                     type="button"
-                    onClick={() => handleDelete(employee._id)}
+                    onClick={() => {
+                      setOpenDeleteModal(true);
+                      setDeletingId(employee._id);
+                    }}
                     disabled={deletingId === employee._id}
                     className="flex-1 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
                   >
@@ -471,6 +474,45 @@ const Read = () => {
           </div>
         )}
       </div>
+      {openDeleteModal && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black/40 z-50">
+          <div className="bg-white rounded-lg w-[360px] shadow-xl flex flex-col items-center gap-2 text-center p-5">
+            <div className="bg-red-100 flex justify-center items-center rounded-full w-20 h-20">
+              <Trash2
+                size={48}
+                className="bg-red-600 p-2 rounded-full text-white"
+              />
+            </div>
+
+            <h1 className="font-bold text-xl text-gray-800">Delete Banner?</h1>
+
+            <p className="text-sm text-gray-600">
+              Are you sure you want to delete this banner?
+              <br />
+              Once deleted, it cannot be undone.
+            </p>
+
+            <div className="flex justify-center gap-4 mt-3 w-full">
+              <button
+                className="bg-black rounded-lg w-1/2 py-3 text-white font-semibold shadow-lg cursor-pointer"
+                onClick={() => {
+                  setOpenDeleteModal(false);
+                  setDeletingId(null);
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="bg-red-600 rounded-lg py-3 w-1/2 text-white font-semibold shadow-lg cursor-pointer"
+                onClick={() => handleDelete(deletingId)}
+              >
+                Delete Banner
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
